@@ -10,9 +10,6 @@ import com.sli.code.rpc.Components.customer.proxy.IAsyncObjectProxy;
 import com.sli.code.rpcWebServer.service.Intef.HelloPersonService;
 import com.sli.code.rpcWebServer.service.Intef.Person;
 
-/**
- * Created by luxiaoxun on 2016/3/17.
- */
 public class HelloPersonCallbackTest {
     public static void main(String[] args) {
         final RpcClient rpcClient = RpcClient.getInstance();

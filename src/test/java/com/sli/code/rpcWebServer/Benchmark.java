@@ -3,18 +3,14 @@ package com.sli.code.rpcWebServer;
 import com.sli.code.rpc.Components.customer.RpcClient;
 import com.sli.code.rpcWebServer.service.Intef.HelloService;
 
-/**
- * http://blog.csdn.net/moonpure/article/details/53175350
- * Created by luxiaoxun on 2016-03-11.
- */
 public class Benchmark {
 
     public static void main(String[] args) throws InterruptedException {
 
         final RpcClient rpcClient = RpcClient.getInstance();
 
-        int threadNum = 1;
-        final int requestNum = 1;
+        int threadNum = 10;
+        final int requestNum = 100;
         Thread[] threads = new Thread[threadNum];
 
         long startTime = System.currentTimeMillis();
