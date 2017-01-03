@@ -1,0 +1,45 @@
+package com.sli.code.rpcWebServer;
+
+import com.sli.code.rpc.Components.customer.RpcClient;
+import com.sli.code.rpcWebServer.service.Intef.HelloService;
+
+/**
+ * http://blog.csdn.net/moonpure/article/details/53175350
+ * Created by luxiaoxun on 2016-03-11.
+ */
+public class Benchmark {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        final RpcClient rpcClient = RpcClient.getInstance();
+
+        int threadNum = 1;
+        final int requestNum = 1;
+        Thread[] threads = new Thread[threadNum];
+
+        long startTime = System.currentTimeMillis();
+        //benchmark for sync call
+        for(int i = 0; i < threadNum; ++i){
+            threads[i] = new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    for (int i = 0; i < requestNum; i++) {
+                        final HelloService syncClient = rpcClient.create(HelloService.class);
+                        String result = syncClient.hello(Integer.toString(i));
+                        if (!result.equals("Hello! " + i))
+                            System.out.print("error = " + result);
+                    }
+                }
+            });
+            threads[i].start();
+        }
+        for(int i=0; i<threads.length;i++){
+            threads[i].join();
+        }
+        long timeCost = (System.currentTimeMillis() - startTime);
+        String msg = String.format("Sync call total-time-cost:%sms, req/s=%s",timeCost,((double)(requestNum * threadNum)) / timeCost * 1000);
+        System.out.println("msg=="+msg);
+
+        rpcClient.stop();
+    }
+}
